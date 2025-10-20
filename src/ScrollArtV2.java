@@ -5,6 +5,11 @@ public class ScrollArtV2 {
     static final int BUNNY_WIDTH = 8;
     static final int BUNNY_HEIGHT = 6;
     static final Random rand = new Random();
+    // NO OVERLAPS
+    // 1. Skip every w (width) characters instead of every column to reduce
+    // horizontal overlap
+    // 2. How do you reduce overlap vertically? Remember previous row at the
+    // specific width
 
     public static void main(String[] args) throws InterruptedException {
         long startTime = System.currentTimeMillis();
@@ -13,32 +18,42 @@ public class ScrollArtV2 {
         for (int i = 0; i < nextRows.length; i++) {
             nextRows[i] = emptyRow();
         }
+        char[] prevRow = nextRows[0];
 
         while (true) {
             // At each column on the top row, 1% chance to add a new image
-            for (int x = 0; x < WIDTH - BUNNY_WIDTH; x++) {
-                if (rand.nextDouble() < 0.01) {
+            for (int x = 0; x < WIDTH - BUNNY_WIDTH; x += BUNNY_WIDTH) {
+                if (isBlank(prevRow, x) && rand.nextDouble() < 0.07) {
                     loadNextRowsWithImage(nextRows, x);
                 }
             }
             // Print and remove the top row
             System.out.println(new String(nextRows[0]));
+            prevRow = nextRows[0]; // update prev row
             // Shift all rows up
             shiftRowsUp(nextRows);
             Thread.sleep(40); // Delay in ms
             long time = System.currentTimeMillis() - startTime;
             iterations++;
+
             System.err.println("average time per frame: " + (time / iterations) + " ms");
         }
     }
 
-    private static void loadNextRowsWithImage(char[][] nextRows, int x) {
-        char[][] img;
-        if (rand.nextBoolean()) {
-            img = getBunny();
-        } else {
-            img = getCarrot();
+    // #2: checking if row is blank
+    static boolean isBlank(char[] row, int x) {
+        for (int i = x; i < x + BUNNY_WIDTH; i++) {
+            if (row[i] != ' ') {
+                return false;
+            }
         }
+        return true;
+    }
+
+    private static void loadNextRowsWithImage(char[][] nextRows, int x) {
+        // triple array version to better manage all images, it's getting a little bit out of hand!! and it is not like they are all the same size anyway.
+        char[][][] images = {getBunny(), getCarrot()};
+        char[][] img = images[rand.nextInt(images.length)];
         for (int iy = 0; iy < BUNNY_HEIGHT; iy++) {
             for (int ix = 0; ix < BUNNY_WIDTH; ix++) {
                 nextRows[iy][x + ix] = img[iy][ix];
