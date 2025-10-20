@@ -6,7 +6,7 @@
 Then a new line, at random intervals, branches off an existing line in the opposite direction. 
 It creates a pattern that looks like a bunch of triangles. I was inspired by watching Al Sweigart's Scroll Art video [here](https://www.youtube.com/watch?v=Sjk4UMpJqVs&embeds_referring_euri=https%3A%2F%2Fscrollart.org%2F&source_ve_path=MzY4NDIsMjM4NTE). 
 
-(Citation Points: kind of 1, kind of 3, so **2**)
+(Citation Points: kind of 1, kind of 3 from Al Sweigart, so **2**)
 
 
 ## 2. Text-moji Art 

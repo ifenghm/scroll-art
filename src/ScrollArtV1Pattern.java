@@ -6,9 +6,9 @@ public class ScrollArtV1Pattern {
     // Makes NUM_PATTERNS patterns of straight lines moving either left or right 
     // Adds a new line at random times that branches off an existing line
     static final int NUM_PATTERNS = 6;
+    static final String[] LIST_SYMBOLS = new String[]{"*", "x", "o", "@", "#"};
     static Integer[] xCols = new Integer[NUM_PATTERNS];
     static int[] dirs = new int[NUM_PATTERNS]; // 1 for going right or -1 for going left
-    static final String[] LIST_SYMBOLS = new String[]{"*", "x", "o", "@", "#"};
     static String[] symbols = new String[NUM_PATTERNS]; // could be different symbols
 
 

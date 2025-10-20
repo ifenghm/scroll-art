@@ -7,33 +7,42 @@ public class ScrollArtV1 {
     static final Random rand = new Random();
 
     public static void main(String[] args) throws InterruptedException {
+        long startTime = System.currentTimeMillis();
+        int iterations = 0;
         char[][] nextRows = new char[BUNNY_HEIGHT][WIDTH]; // store upcoming rows
         for (int i = 0; i < nextRows.length; i++) {
             nextRows[i] = emptyRow();
         }
 
         while (true) {
+            // At each column on the top row, 1% chance to add a new image
             for (int x = 0; x < WIDTH - BUNNY_WIDTH; x++) {
                 if (rand.nextDouble() < 0.01) {
-                    char[][] img;
-                    if (rand.nextDouble() < 0.5)
-                        img = getBunny();
-                    else {
-                        img = getCarrot();
-                    }
-                    for (int iy = 0; iy < BUNNY_HEIGHT; iy++) {
-                        for (int ix = 0; ix < BUNNY_WIDTH; ix++) {
-                            nextRows[iy][x + ix] = img[iy][ix];
-                        }
-                    }
+                    loadNextRowsWithImage(nextRows, x);
                 }
             }
-
             // Print and remove the top row
             System.out.println(new String(nextRows[0]));
             // Shift all rows up
             shiftRowsUp(nextRows);
             Thread.sleep(40); // Delay in ms
+            long time = System.currentTimeMillis() - startTime;
+            iterations++;
+            System.err.println("average time per frame: " + (time / iterations) + " ms");
+        }
+    }
+
+    private static void loadNextRowsWithImage(char[][] nextRows, int x) {
+        char[][] img;
+        if (rand.nextBoolean()) {
+            img = getBunny();
+        } else {
+            img = getCarrot();
+        }
+        for (int iy = 0; iy < BUNNY_HEIGHT; iy++) {
+            for (int ix = 0; ix < BUNNY_WIDTH; ix++) {
+                nextRows[iy][x + ix] = img[iy][ix];
+            }
         }
     }
 
