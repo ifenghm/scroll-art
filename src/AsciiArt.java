@@ -70,6 +70,20 @@ public class AsciiArt {
         return this.img;
     }
 
+    AsciiArt switchRowsAndCols() {
+        char[][] newImg = new char[width][height];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                newImg[j][i] = img[i][j];
+            }
+        }
+        this.img = newImg;
+        int temp = this.width;
+        this.width = this.height;
+        this.height = temp;
+        return this;
+    }
+
     static AsciiArt getWidestArt(AsciiArt[] asciis) {
         if (asciis.length == 0) {
             return null;
